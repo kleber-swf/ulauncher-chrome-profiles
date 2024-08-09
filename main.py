@@ -39,12 +39,21 @@ class DemoExtension(Extension):
 
 
 class KeywordQueryEventListener(EventListener):
+    def __init__(self):
+        super(KeywordQueryEventListener, self).__init__()
+        self.profiles = []
+
     def on_event(self, event, extension):
-        chrome_config_folder = os.path.expanduser(extension.preferences['chrome_folder'])
-        profiles = scan_chrome_folder(chrome_config_folder)
+        query = event.get_argument()
+
+        if not query or len(self.profiles) == 0:
+            chrome_config_folder = os.path.expanduser(extension.preferences['chrome_folder'])
+            self.profiles = scan_chrome_folder(chrome_config_folder)
+
+        profiles = self.profiles.copy()
 
         # Filter by query if inserted
-        query = event.get_argument()
+        
         if query:
             query = query.strip().lower()
             for folder in list(profiles.keys()):
