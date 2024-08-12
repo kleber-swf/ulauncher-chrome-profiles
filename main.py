@@ -71,7 +71,7 @@ class KeywordQueryEventListener(EventListener):
                 on_enter=ExtensionCustomAction({
                     'chrome_cmd': extension.preferences['chrome_cmd'],
                     'opt': ['--profile-directory={0}'.format(folder)]
-                }, keep_app_open=True)
+                }, keep_app_open=False)
             ))
         return RenderResultListAction(entries)
 
